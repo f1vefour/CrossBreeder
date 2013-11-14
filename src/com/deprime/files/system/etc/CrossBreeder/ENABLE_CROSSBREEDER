@@ -10,4 +10,4 @@ rm /data/CrossBreeder.RUN 2>/dev/null
 
 #/system/etc/CrossBreeder/CHECK_PROCS
 
-echo DONE. CrossBreeder has been enabled and started. If you still get problems. Please reboot once. 
+echo "DONE... CrossBreeder has been enabled and started. If you still have problems please reboot"
