@@ -1,0 +1,18 @@
+#!/bin/sh
+
+### Masqed Crusader for Android (masqedcrusader.conf)
+### Version 0.2.0 Google DNS No Ad-Blocking
+### Soapbox Apps
+
+# Configuration
+no-resolv
+no-poll
+server=8.8.4.4
+server=8.8.8.8
+no-dhcp-interface=lo
+no-dhcp-interface=eth0
+listen-address=127.0.0.1
+pid-file=/data/misc/dnsmasq.pid
+no-negcache
+cache-size=150
+log-async=5
