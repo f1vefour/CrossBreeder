@@ -3,13 +3,12 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:gravity="bottom">
+	android:orientation="vertical">
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="4096"
+		android:text=""
 		android:id="@+id/txtEntropy"
 		android:textSize="17sp"
 		android:layout_gravity="right"
@@ -43,9 +42,9 @@
 		android:layout_width="wrap_content"
 		android:id="@+id/cbToggle"
 		android:onClick="runCB"
-		android:layout_marginTop="10dp"
 		android:layout_alignParentRight="true"
-		android:layout_marginRight="6dp"/>
+		android:layout_marginRight="6dp"
+		android:layout_marginTop="11dp"/>
 
 	<TextView
 		android:layout_height="wrap_content"
@@ -54,15 +53,15 @@
 		android:layout_width="wrap_content"
 		android:layout_marginTop="11dp"
 		android:layout_marginLeft="6dp"
-		android:id="@+id/txtCBLABEL"/>
+		android:id="@+id/txtCrossbreeder"/>
 
 	<TextView
 		android:layout_height="wrap_content"
-		android:text="Enable the CrossBreeder entropy generation service."
+		android:text="CrossBreeder haveged entropy generation service."
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
-		android:layout_below="@id/txtCBLABEL"
-		android:id="@+id/cbDescription"
+		android:layout_below="@id/txtCrossbreeder"
+		android:id="@+id/descCB"
 		android:layout_margin="10dp"/>
 
 	<TextView
@@ -71,26 +70,57 @@
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="wrap_content"
 		android:id="@+id/txtDNS"
-		android:layout_below="@id/cbDescription"
+		android:layout_below="@id/descCB"
 		android:layout_marginLeft="6dp"
-		android:layout_marginTop="24dp"/>
+		android:layout_marginTop="25dp"/>
 
 	<TextView
 		android:layout_height="wrap_content"
-		android:text="Enable the DNS Masquerade daemon."
+		android:text="The DNS Masquerade daemon increases DNS query speed by means caching."
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:layout_below="@id/txtDNS"
-		android:layout_margin="10dp"/>
+		android:layout_margin="10dp"
+		android:id="@+id/descEntropy"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="Tweak IO"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/descEntropy"
+		android:layout_marginLeft="6dp"
+		android:id="@+id/txtTweakio"
+		android:layout_marginTop="25dp"/>
 
 	<Switch
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_marginRight="6dp"
-		android:layout_marginTop="99dp"
-		android:id="@+id/dnsToggle" 
-		android:onClick="runDNS" />
+		android:id="@+id/dnsToggle"
+		android:onClick="runDNS"
+		android:layout_alignBaseline="@id/txtDNS"
+		android:layout_alignTop="@id/txtDNS"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="Tweaks various kernel IO values to aid in overall system responsiveness."
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/txtTweakio"
+		android:layout_margin="10dp"
+		android:id="@+id/descIO"/>
+
+	<Switch
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignBaseline="@id/txtTweakio"
+		android:layout_alignParentRight="true"
+		android:layout_alignTop="@id/txtTweakio"
+		android:onClick="runIO"
+		android:layout_marginRight="6dp"
+		android:id="@+id/ioToggle"/>
 
 </RelativeLayout>
 

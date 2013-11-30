@@ -2,10 +2,12 @@ package com.deprime.entropy;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 
@@ -15,16 +17,21 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+import com.deprime.entropy.ShellInterface;
+
 public class MainActivity extends Activity
 {
-	File fs = null;
-	boolean on;
-	boolean dns;
-	
 	public SharedPreferences spref;
 	final String PREF_NAME="preferences";
-	Switch cb;
+
+	File fs = null;
+	boolean cb;
+	boolean dns;
+	boolean io;
+
+	Switch cbreeder;
 	Switch dnsenable;
+	Switch ioenable;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -34,19 +41,21 @@ public class MainActivity extends Activity
 
 		// get toggle state
 		spref = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-		cb = (Switch) findViewById(R.id.cbToggle);
+		cbreeder = (Switch) findViewById(R.id.cbToggle);
 		dnsenable = (Switch) findViewById(R.id.dnsToggle);
-		on = spref.getBoolean("On", true);
-		dns = spref.getBoolean("DNS",true);
-		if (on == true) 
+		ioenable = (Switch) findViewById(R.id.ioToggle);
+		cb = spref.getBoolean("CBreeder", true);
+		dns = spref.getBoolean("DNS", true);
+		io = spref.getBoolean("IO", true);
+
+		if (cb == true) 
 		{
-			cb.setChecked(true);
+			cbreeder.setChecked(true);
 		}
 		else
 		{
-			cb.setChecked(false);
+			cbreeder.setChecked(false);
 		}
-		
 		if (dns == true) 
 		{
 			dnsenable.setChecked(true);
@@ -55,7 +64,14 @@ public class MainActivity extends Activity
 		{
 			dnsenable.setChecked(false);
 		}
-
+		if (io == true) 
+		{
+			ioenable.setChecked(true);
+		}
+		else
+		{
+			ioenable.setChecked(false);
+		}
 	}
 
 	public void runCB(View view)
@@ -63,99 +79,74 @@ public class MainActivity extends Activity
 		if (((Switch) view).isChecked())
 		{
 			// handle toggle on
-			try
-			{
-				Process process = null;
-				DataOutputStream os = null;
-
-				process = Runtime.getRuntime().exec("su");
-				os = new DataOutputStream(process.getOutputStream());
-				os.writeBytes("sh /etc/CrossBreeder/ENABLE_CROSSBREEDER\n");
-				os.writeBytes("exit\n");
-				os.flush();
-				SharedPreferences.Editor editor = spref.edit();
-				editor.putBoolean("On", true); // value to store
-				editor.apply();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			//if(ShellInterface.isSuAvailable()) { ShellInterface.runCommand("/etc/CrossBreeder/ENABLE_CROSSBREEDER"); }
+			if (ShellInterface.isSuAvailable())
+			{ String cbOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_CROSSBREEDER"); 
+				Toast.makeText(getApplicationContext(), cbOn, Toast.LENGTH_LONG).show();}
+			SharedPreferences.Editor editor = spref.edit();
+			editor.putBoolean("CBreeder", true); // value to store
+			editor.commit();
 		}
 		else
 		{
 			// handle toggle off
-			Process process = null;
-			DataOutputStream os = null;
-			
-			try
-			{
-				process = Runtime.getRuntime().exec("su");
-				os = new DataOutputStream(process.getOutputStream());
-				os.writeBytes("sh /etc/CrossBreeder/DISABLE_CROSSBREEDER\n");
-				os.writeBytes("exit\n");
-				os.flush();
-				SharedPreferences.Editor editor = spref.edit();
-				editor.putBoolean("On", false); // value to store
-				editor.apply();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			if (ShellInterface.isSuAvailable())
+			{ String cbOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_CROSSBREEDER"); 
+				Toast.makeText(getApplicationContext(), cbOff, Toast.LENGTH_LONG).show();}
+			SharedPreferences.Editor editor = spref.edit();
+			editor.putBoolean("CBreeder", false); // value to store
+			editor.commit();
 		}    
 	}
-	
+
 	public void runDNS(View view)
 	{
 		if (((Switch) view).isChecked())
 		{
 			// handle toggle on
-			try
-			{
-				Process process = null;
-				DataOutputStream os = null;
-
-				process = Runtime.getRuntime().exec("su");
-				os = new DataOutputStream(process.getOutputStream());
-				os.writeBytes("killall -9 dnsproxy2\n");
-				os.writeBytes("sh /etc/CrossBreeder/ENABLE_ADBLOCK\n");
-				os.writeBytes("./etc/CrossBreeder/dnsproxy2 -w 127.0.0.1\n");
-				os.writeBytes("exit\n");
-				os.flush();
-				SharedPreferences.Editor editor = spref.edit();
-				editor.putBoolean("DNS", true); // value to store
-				editor.commit();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			if (ShellInterface.isSuAvailable())
+			{ String dnsOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_ADBLOCK"); 
+				Toast.makeText(getApplicationContext(), dnsOn, Toast.LENGTH_LONG).show();}
+			SharedPreferences.Editor editor = spref.edit();
+			editor.putBoolean("DNS", true); // value to store
+			editor.commit();
 		}
 		else
 		{
 			// handle toggle off
-			Process process = null;
-			DataOutputStream os = null;
-
-			try
-			{
-				process = Runtime.getRuntime().exec("su");
-				os = new DataOutputStream(process.getOutputStream());
-				os.writeBytes("sh /etc/CrossBreeder/DISABLE_ADBLOCK\n");
-				os.writeBytes("exit\n");
-				os.flush();
-				SharedPreferences.Editor editor = spref.edit();
-				editor.putBoolean("DNS", false); // value to store
-				editor.commit();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}    
+			if (ShellInterface.isSuAvailable())
+			{ String dnsOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_ADBLOCK"); 
+				Toast.makeText(getApplicationContext(), dnsOff, Toast.LENGTH_LONG).show();}
+			SharedPreferences.Editor editor = spref.edit();
+			editor.putBoolean("DNS", false); // value to store
+			editor.commit();
+		}
 	}
 
+	public void runIO(View view)
+	{
+		if (((Switch) view).isChecked())
+		{
+			// handle toggle on
+			if (ShellInterface.isSuAvailable())
+			{ String ioOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_IO_TWEAKS"); 
+				Toast.makeText(getApplicationContext(), ioOn, Toast.LENGTH_LONG).show();}
+			SharedPreferences.Editor editor = spref.edit();
+			editor.putBoolean("IO", true); // value to store
+			editor.commit();
+		}
+		else
+		{
+			// handle toggle off
+			if (ShellInterface.isSuAvailable())
+			{ String ioOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_IO_TWEAKS"); 
+				Toast.makeText(getApplicationContext(), ioOff, Toast.LENGTH_LONG).show();}
+			SharedPreferences.Editor editor = spref.edit();
+			editor.putBoolean("IO", false); // value to store
+			editor.commit();
+		}
+	}
+	
 	@Override
 	public void onPause()
 	{
@@ -204,6 +195,12 @@ public class MainActivity extends Activity
 		{
 			e.printStackTrace();
 		}
+	}
+	// fix losing state on rotation
+	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+	{        
+		super.onConfigurationChanged(newConfig);
 	}
 }
 
