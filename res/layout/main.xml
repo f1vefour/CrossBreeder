@@ -57,7 +57,7 @@
 
 	<TextView
 		android:layout_height="wrap_content"
-		android:text="CrossBreeder haveged entropy generation service."
+		android:text="Haveged entropy generation service."
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:layout_below="@id/txtCrossbreeder"
@@ -76,7 +76,7 @@
 
 	<TextView
 		android:layout_height="wrap_content"
-		android:text="The DNS Masquerade daemon increases DNS query speed by means caching."
+		android:text="The DNS Masquerade daemon increases DNS query speed by means of caching."
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:layout_below="@id/txtDNS"

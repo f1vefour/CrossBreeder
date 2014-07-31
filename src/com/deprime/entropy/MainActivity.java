@@ -82,20 +82,20 @@ public class MainActivity extends Activity
 			//if(ShellInterface.isSuAvailable()) { ShellInterface.runCommand("/etc/CrossBreeder/ENABLE_CROSSBREEDER"); }
 			if (ShellInterface.isSuAvailable())
 			{ String cbOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_CROSSBREEDER"); 
-				Toast.makeText(getApplicationContext(), cbOn, Toast.LENGTH_LONG).show();}
-			SharedPreferences.Editor editor = spref.edit();
-			editor.putBoolean("CBreeder", true); // value to store
-			editor.commit();
+				Toast.makeText(getApplicationContext(), cbOn, Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("CBreeder", true); // value to store
+				editor.commit();}
 		}
 		else
 		{
 			// handle toggle off
 			if (ShellInterface.isSuAvailable())
 			{ String cbOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_CROSSBREEDER"); 
-				Toast.makeText(getApplicationContext(), cbOff, Toast.LENGTH_LONG).show();}
-			SharedPreferences.Editor editor = spref.edit();
-			editor.putBoolean("CBreeder", false); // value to store
-			editor.commit();
+				Toast.makeText(getApplicationContext(), cbOff, Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("CBreeder", false); // value to store
+				editor.commit();}
 		}    
 	}
 
@@ -106,20 +106,20 @@ public class MainActivity extends Activity
 			// handle toggle on
 			if (ShellInterface.isSuAvailable())
 			{ String dnsOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_ADBLOCK"); 
-				Toast.makeText(getApplicationContext(), dnsOn, Toast.LENGTH_LONG).show();}
-			SharedPreferences.Editor editor = spref.edit();
-			editor.putBoolean("DNS", true); // value to store
-			editor.commit();
+				Toast.makeText(getApplicationContext(), dnsOn, Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("DNS", true); // value to store
+				editor.commit();}
 		}
 		else
 		{
 			// handle toggle off
 			if (ShellInterface.isSuAvailable())
 			{ String dnsOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_ADBLOCK"); 
-				Toast.makeText(getApplicationContext(), dnsOff, Toast.LENGTH_LONG).show();}
-			SharedPreferences.Editor editor = spref.edit();
-			editor.putBoolean("DNS", false); // value to store
-			editor.commit();
+				Toast.makeText(getApplicationContext(), dnsOff, Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("DNS", false); // value to store
+				editor.commit();}
 		}
 	}
 
@@ -129,24 +129,24 @@ public class MainActivity extends Activity
 		{
 			// handle toggle on
 			if (ShellInterface.isSuAvailable())
-			{ String ioOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_IO_TWEAKS"); 
-				Toast.makeText(getApplicationContext(), ioOn, Toast.LENGTH_LONG).show();}
-			SharedPreferences.Editor editor = spref.edit();
-			editor.putBoolean("IO", true); // value to store
-			editor.commit();
+			{ ShellInterface.runCommand("busybox mount -o rw,remount,noatime,nodiratime /system && touch /system/etc/CrossBreeder/START_TWEAKING_IO"); 
+				Toast.makeText(getApplicationContext(), "IO tweaks activated", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("IO", true); // value to store
+				editor.commit();}
 		}
 		else
 		{
 			// handle toggle off
 			if (ShellInterface.isSuAvailable())
-			{ String ioOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_IO_TWEAKS"); 
-				Toast.makeText(getApplicationContext(), ioOff, Toast.LENGTH_LONG).show();}
-			SharedPreferences.Editor editor = spref.edit();
-			editor.putBoolean("IO", false); // value to store
-			editor.commit();
+			{ ShellInterface.runCommand("busybox mount -o rw,remount,noatime,nodiratime /system && rm /system/etc/CrossBreeder/START_TWEAKING_IO"); 
+				Toast.makeText(getApplicationContext(), "IO tweaks disabled.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("IO", false); // value to store
+				editor.commit();}
 		}
 	}
-	
+
 	@Override
 	public void onPause()
 	{
@@ -178,23 +178,26 @@ public class MainActivity extends Activity
 
 	private void tick()
 	{
-		try
-		{
-			TextView txtContent = (TextView) findViewById(R.id.txtEntropy);
-			ProgressBar entropyBar = (ProgressBar) findViewById(R.id.entBar);
-			File fs = new File("/proc/sys/kernel/random/entropy_avail");
-			FileReader fr = new FileReader(fs);
-			BufferedReader br = new BufferedReader(fr);
-			String entropy = br.readLine();
-			Integer progress = new Integer(entropy);
-			txtContent.setText(entropy);
-			entropyBar.setMax(4096);
-			entropyBar.setProgress(progress);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		new Thread(new Runnable() {
+				File fs = new File("/proc/sys/kernel/random/entropy_avail");
+				FileReader fr = new FileReader(fs);
+				BufferedReader br = new BufferedReader(fr);
+				String entropy = br.readLine();
+				TextView txtContent = (TextView) findViewById(R.id.txtEntropy);
+				ProgressBar entropyBar = (ProgressBar) findViewById(R.id.entBar);
+				Integer progress = new Integer(entropy);
+				public void run()
+				{
+					runOnUiThread(new Runnable() {
+							public void run()
+							{
+								txtContent.setText(entropy);
+								entropyBar.setMax(4096);
+								entropyBar.setProgress(progress);;
+							}
+						});
+				}
+			}).start();
 	}
 	// fix losing state on rotation
 	@Override
