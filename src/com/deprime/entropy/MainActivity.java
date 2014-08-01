@@ -139,7 +139,9 @@ public class MainActivity extends Activity
 		{
 			// handle toggle on
 			if (ShellInterface.isSuAvailable())
-			{ ShellInterface.runCommand("busybox mount -o rw,remount,noatime,nodiratime /system && touch /system/etc/CrossBreeder/START_TWEAKING_IO"); 
+			{ ShellInterface.runCommand("busybox mount -o rw,remount,noatime,nodiratime /system && touch /system/etc/CrossBreeder/START_TWEAKING_IO");
+				ShellInterface.runCommand("/system/etc/CrossBreeder/CB_IO_Tweaks.sh");
+				ShellInterface.runCommand("busybox mount -o ro,remount,noatime,nodiratime");
 				Toast.makeText(getApplicationContext(), "IO tweaks activated", Toast.LENGTH_LONG).show();
 				SharedPreferences.Editor editor = spref.edit();
 				editor.putBoolean("IO", true); // value to store
@@ -149,8 +151,9 @@ public class MainActivity extends Activity
 		{
 			// handle toggle off
 			if (ShellInterface.isSuAvailable())
-			{ ShellInterface.runCommand("busybox mount -o rw,remount,noatime,nodiratime /system && rm /system/etc/CrossBreeder/START_TWEAKING_IO"); 
-				Toast.makeText(getApplicationContext(), "IO tweaks disabled.", Toast.LENGTH_LONG).show();
+			{ ShellInterface.runCommand("busybox mount -o rw,remount,noatime,nodiratime /system && rm /system/etc/CrossBreeder/START_TWEAKING_IO");
+				ShellInterface.runCommand("busybox mount -o ro,remount,noatime,nodiratime");
+				Toast.makeText(getApplicationContext(), "IO tweaks disabled. You must reboot for this to take effect.", Toast.LENGTH_LONG).show();
 				SharedPreferences.Editor editor = spref.edit();
 				editor.putBoolean("IO", false); // value to store
 				editor.commit();}
