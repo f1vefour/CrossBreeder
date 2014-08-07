@@ -54,9 +54,9 @@ public class MainActivity extends Activity
 		cbreeder = (Switch) findViewById(R.id.cbToggle);
 		dnsenable = (Switch) findViewById(R.id.dnsToggle);
 		ioenable = (Switch) findViewById(R.id.ioToggle);
-		cb = spref.getBoolean("CBreeder", true);
-		dns = spref.getBoolean("DNS", true);
-		io = spref.getBoolean("IO", true);
+		cb = spref.getBoolean("CBreeder", false);
+		dns = spref.getBoolean("DNS", false);
+		io = spref.getBoolean("IO", false);
 
 		if (cb == true) 
 		{
