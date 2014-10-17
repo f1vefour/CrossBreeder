@@ -37,90 +37,181 @@
 		android:layout_alignBottom="@id/txtEntropy"
 		android:layout_marginBottom="6dp"/>
 
-	<Switch
+	<ScrollView
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:id="@+id/cbToggle"
-		android:onClick="runCB"
-		android:layout_alignParentRight="true"
-		android:layout_marginRight="6dp"
-		android:layout_marginTop="11dp"/>
+		android:layout_above="@id/txtEntropy">
+	    		
+		<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"> 
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="CrossBreeder"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="wrap_content"
-		android:layout_marginTop="11dp"
-		android:layout_marginLeft="6dp"
-		android:id="@+id/txtCrossbreeder"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="CrossBreeder"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:layout_marginTop="11dp"
+			android:layout_marginLeft="6dp"
+			android:id="@+id/txtCrossbreeder"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="Haveged entropy generation service."
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_below="@id/txtCrossbreeder"
-		android:id="@+id/descCB"
-		android:layout_margin="10dp"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Haveged entropy generation service."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/txtCrossbreeder"
+			android:id="@+id/descCB"
+			android:layout_margin="10dp"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="DNSMasq"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="wrap_content"
-		android:id="@+id/txtDNS"
-		android:layout_below="@id/descCB"
-		android:layout_marginLeft="6dp"
-		android:layout_marginTop="25dp"/>
+		<Switch
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:id="@+id/cbToggle"
+			android:onClick="runCB"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="6dp"
+			android:layout_marginTop="11dp"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="The DNS Masquerade daemon increases DNS query speed by means of caching."
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_below="@id/txtDNS"
-		android:layout_margin="10dp"
-		android:id="@+id/descEntropy"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="DNSMasq"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:id="@+id/txtDNS"
+			android:layout_below="@id/descCB"
+			android:layout_marginLeft="6dp"
+			android:layout_marginTop="25dp"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="Tweak IO"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="wrap_content"
-		android:layout_below="@id/descEntropy"
-		android:layout_marginLeft="6dp"
-		android:id="@+id/txtTweakio"
-		android:layout_marginTop="25dp"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="The DNS Masquerade daemon increases DNS query speed by means of caching."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/txtDNS"
+			android:layout_margin="10dp"
+			android:id="@+id/descEntropy"/>
+	
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Tweak IO"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/descEntropy"
+			android:layout_marginLeft="6dp"
+			android:id="@+id/txtTweakio"
+			android:layout_marginTop="25dp"/>
 
-	<Switch
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_marginRight="6dp"
-		android:id="@+id/dnsToggle"
-		android:onClick="runDNS"
-		android:layout_alignBaseline="@id/txtDNS"
-		android:layout_alignTop="@id/txtDNS"/>
+		<Switch
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="6dp"
+			android:id="@+id/dnsToggle"
+			android:onClick="runDNS"
+			android:layout_alignBaseline="@id/txtDNS"
+			android:layout_alignTop="@id/txtDNS"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="Tweaks various kernel IO values to aid in overall system responsiveness."
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_below="@id/txtTweakio"
-		android:layout_margin="10dp"
-		android:id="@+id/descIO"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Tweaks various kernel IO values to aid in overall system responsiveness."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/txtTweakio"
+			android:layout_margin="10dp"
+			android:id="@+id/descIO"/>
 
-	<Switch
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignBaseline="@id/txtTweakio"
-		android:layout_alignParentRight="true"
-		android:layout_alignTop="@id/txtTweakio"
-		android:onClick="runIO"
-		android:layout_marginRight="6dp"
-		android:id="@+id/ioToggle"/>
+		<Switch
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignBaseline="@id/txtTweakio"
+			android:layout_alignParentRight="true"
+			android:layout_alignTop="@id/txtTweakio"
+			android:onClick="runIO"
+			android:layout_marginRight="6dp"
+			android:id="@+id/ioToggle"/>
 
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Bypass ISP"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/descIO"
+			android:layout_marginTop="25dp"
+			android:layout_marginLeft="6dp"
+			android:id="@+id/txtBISP"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Bypasses ISP. Reboot for change to take effect."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/txtBISP"
+			android:layout_margin="10dp"
+			android:id="@+id/descBISP"/>
+		<Switch
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignBaseline="@id/txtBISP"
+			android:layout_alignParentRight="true"
+			android:layout_alignTop="@id/txtBISP"
+			android:onClick="runBISP"
+			android:layout_marginRight="6dp"
+			android:id="@+id/bispToggle"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Tether boost"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/descBISP"
+			android:layout_marginTop="25dp"
+			android:layout_marginLeft="6dp"
+			android:id="@+id/txtTB"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Tether boost. Disable if having tethering issues. Reboot required to take effect."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/txtTB"
+			android:layout_margin="10dp"
+			android:id="@+id/descTB"/>
+		<Switch
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignBaseline="@id/txtTB"
+			android:layout_alignParentRight="true"
+			android:layout_alignTop="@id/txtTB"
+			android:onClick="runTB"
+			android:layout_marginRight="6dp"
+			android:id="@+id/tbToggle"/>
+		
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Adblock"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/descTB"
+			android:layout_marginTop="25dp"
+			android:layout_marginLeft="6dp"
+			android:id="@+id/txtAB"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Adblocker. /etc/CrossBreeder/hosts is the file."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_below="@id/txtAB"
+			android:layout_margin="10dp"
+			android:id="@+id/descAB"/>
+		<Switch
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignBaseline="@id/txtAB"
+			android:layout_alignParentRight="true"
+			android:layout_alignTop="@id/txtAB"
+			android:onClick="runAB"
+			android:layout_marginRight="6dp"
+			android:id="@+id/abToggle"/>
+ 		</RelativeLayout>   
+	</ScrollView>
 </RelativeLayout>
 

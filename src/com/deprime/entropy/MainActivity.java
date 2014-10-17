@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.ProgressBar;
 
 import java.io.File;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -38,10 +37,16 @@ public class MainActivity extends Activity
 	boolean cb;
 	boolean dns;
 	boolean io;
+	boolean bisp;
+	boolean tb;
+	boolean ab;
 
 	Switch cbreeder;
 	Switch dnsenable;
 	Switch ioenable;
+	Switch bispenable;
+	Switch tbenable;
+	Switch abenable;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -54,34 +59,23 @@ public class MainActivity extends Activity
 		cbreeder = (Switch) findViewById(R.id.cbToggle);
 		dnsenable = (Switch) findViewById(R.id.dnsToggle);
 		ioenable = (Switch) findViewById(R.id.ioToggle);
+		bispenable = (Switch) findViewById(R.id.bispToggle);
+		tbenable = (Switch) findViewById(R.id.tbToggle);
+		abenable = (Switch) findViewById(R.id.abToggle);
+
 		cb = spref.getBoolean("CBreeder", false);
 		dns = spref.getBoolean("DNS", false);
 		io = spref.getBoolean("IO", false);
-
-		if (cb == true) 
-		{
-			cbreeder.setChecked(true);
-		}
-		else
-		{
-			cbreeder.setChecked(false);
-		}
-		if (dns == true) 
-		{
-			dnsenable.setChecked(true);
-		}
-		else
-		{
-			dnsenable.setChecked(false);
-		}
-		if (io == true) 
-		{
-			ioenable.setChecked(true);
-		}
-		else
-		{
-			ioenable.setChecked(false);
-		}
+		bisp = spref.getBoolean("BISP", false);
+		tb = spref.getBoolean("TB", false);
+		ab = spref.getBoolean("AB", false);
+		
+		cbreeder.setChecked(cb);
+		dnsenable.setChecked(dns);
+		ioenable.setChecked(io);
+		bispenable.setChecked(bisp);
+		tbenable.setChecked(tb);
+		abenable.setChecked(ab);
 	}
 
 	public void runCB(View view)
@@ -115,7 +109,7 @@ public class MainActivity extends Activity
 		{
 			// handle toggle on
 			if (ShellInterface.isSuAvailable())
-			{ String dnsOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_ADBLOCK"); 
+			{ String dnsOn = ShellInterface.getProcessOutput("/etc/CrossBreeder/INSTALL_DNS_CLIENT"); 
 				Toast.makeText(getApplicationContext(), dnsOn, Toast.LENGTH_LONG).show();
 				SharedPreferences.Editor editor = spref.edit();
 				editor.putBoolean("DNS", true); // value to store
@@ -125,7 +119,7 @@ public class MainActivity extends Activity
 		{
 			// handle toggle off
 			if (ShellInterface.isSuAvailable())
-			{ String dnsOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_ADBLOCK"); 
+			{ String dnsOff = ShellInterface.getProcessOutput("/etc/CrossBreeder/REMOVE_DNS_CLIENT"); 
 				Toast.makeText(getApplicationContext(), dnsOff, Toast.LENGTH_LONG).show();
 				SharedPreferences.Editor editor = spref.edit();
 				editor.putBoolean("DNS", false); // value to store
@@ -156,6 +150,78 @@ public class MainActivity extends Activity
 				Toast.makeText(getApplicationContext(), "IO tweaks disabled. You must reboot for this to take effect.", Toast.LENGTH_LONG).show();
 				SharedPreferences.Editor editor = spref.edit();
 				editor.putBoolean("IO", false); // value to store
+				editor.commit();}
+		}
+	}
+
+	public void runBISP(View view)
+	{
+		if (((Switch) view).isChecked())
+		{
+			// handle toggle on
+			if (ShellInterface.isSuAvailable())
+			{ ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_BYPASS_ISP"); 
+				Toast.makeText(getApplicationContext(), "Bypass ISP enabled. You must reboot for this to take effect.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("BISP", true); // value to store
+				editor.commit();}
+		}
+		else
+		{
+			// handle toggle off
+			if (ShellInterface.isSuAvailable())
+			{ ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_BYPASS_ISP"); 
+			Toast.makeText(getApplicationContext(), "Bypass ISP disabled. You must reboot for this to take effect.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("BISP", false); // value to store
+				editor.commit();}
+		}
+	}
+
+	public void runTB(View view)
+	{
+		if (((Switch) view).isChecked())
+		{
+			// handle toggle on
+			if (ShellInterface.isSuAvailable())
+			{ ShellInterface.getProcessOutput("/etc/CrossBreeder/INSTALL_TETHER_BOOST"); 
+			Toast.makeText(getApplicationContext(), "Tether boost enabled. You must reboot for this to take effect.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("TB", true); // value to store
+				editor.commit();}
+		}
+		else
+		{
+			// handle toggle off
+			if (ShellInterface.isSuAvailable())
+			{ ShellInterface.getProcessOutput("/etc/CrossBreeder/REMOVE_TETHER_BOOST"); 
+			Toast.makeText(getApplicationContext(), "Tether boost disabled. You must reboot for this to take effect.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("TB", false); // value to store
+				editor.commit();}
+		}
+	}
+
+	public void runAB(View view)
+	{
+		if (((Switch) view).isChecked())
+		{
+			// handle toggle on
+			if (ShellInterface.isSuAvailable())
+			{ ShellInterface.getProcessOutput("/etc/CrossBreeder/ENABLE_ADBLOCK"); 
+			Toast.makeText(getApplicationContext(), "Adblock enabled.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("AB", true); // value to store
+				editor.commit();}
+		}
+		else
+		{
+			// handle toggle off
+			if (ShellInterface.isSuAvailable())
+			{ ShellInterface.getProcessOutput("/etc/CrossBreeder/DISABLE_ADBLOCK"); 
+			Toast.makeText(getApplicationContext(), "Adblock disabled.", Toast.LENGTH_LONG).show();
+				SharedPreferences.Editor editor = spref.edit();
+				editor.putBoolean("AB", false); // value to store
 				editor.commit();}
 		}
 	}
@@ -191,26 +257,31 @@ public class MainActivity extends Activity
 
 	private void tick()
 	{
-		new Thread(new Runnable() {
-				File fs = new File("/proc/sys/kernel/random/entropy_avail");
-				FileReader fr = new FileReader(fs);
-				BufferedReader br = new BufferedReader(fr);
-				String entropy = br.readLine();
-				TextView txtContent = (TextView) findViewById(R.id.txtEntropy);
-				ProgressBar entropyBar = (ProgressBar) findViewById(R.id.entBar);
-				Integer progress = new Integer(entropy);
-				public void run()
-				{
-					runOnUiThread(new Runnable() {
-							public void run()
-							{
-								txtContent.setText(entropy);
-								entropyBar.setMax(4096);
-								entropyBar.setProgress(progress);;
-							}
-						});
-				}
-			}).start();
+		try {
+			new Thread(new Runnable() {
+					File fs = new File("/proc/sys/kernel/random/entropy_avail");
+					FileReader fr = new FileReader(fs);
+					BufferedReader br = new BufferedReader(fr);
+					String entropy = br.readLine();
+					TextView txtContent = (TextView) findViewById(R.id.txtEntropy);
+					ProgressBar entropyBar = (ProgressBar) findViewById(R.id.entBar);
+					Integer progress = new Integer(entropy);
+					public void run()
+					{
+						runOnUiThread(new Runnable() {
+								public void run()
+								{
+									txtContent.setText(entropy);
+									entropyBar.setMax(4096);
+									entropyBar.setProgress(progress);;
+								}
+							});
+					}
+				}).start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	// fix losing state on rotation
 	@Override
