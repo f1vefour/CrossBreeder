@@ -257,7 +257,6 @@ public class MainActivity extends Activity
 
 	private void tick()
 	{
-		try {
 			new Thread(new Runnable() {
 					File fs = new File("/proc/sys/kernel/random/entropy_avail");
 					FileReader fr = new FileReader(fs);
@@ -278,10 +277,6 @@ public class MainActivity extends Activity
 							});
 					}
 				}).start();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	// fix losing state on rotation
 	@Override
